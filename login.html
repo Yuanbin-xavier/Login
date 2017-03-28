@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>登录页面</title>
+	<link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+    <div class="ui-login" id="login">
+    	<div class="ui-login-title" id="dialogTitle">
+    		<a href="javascript:haideDialog();" class="ui-login-closebutton"></a>
+    		登录通行证
+    	</div>
+    	<form method="post" action="success.html">
+	    	<div class="ui-login-content">
+	    		<div class="ui-login-140 ui-login-pt15">
+	    			<input type="input" name="use" class="ui-login-input ui-login-input-username" placeholder="手机/邮箱/用户名" />
+	    		</div>
+	    		<div class="ui-login-140 ui-login-pt15">
+	    			<input type="password" name="pwd" class="ui-login-input ui-login-input-password" placeholder="密码" />
+	    		</div>
+	    		<div class="ui-login-140 interval">
+	    			<a href="#">忘记密码</a>
+	    		</div>
+	    		<div>
+	    			<a href="#" class="ui-login-submit">登录</a>
+	    		</div>
+	    		<div class="ui-login-140">
+	    			<a href="#">没有账号？立即注册</a>
+	    		</div>
+	    	</div>
+    	</form>
+    </div>
+    <div id="mask" class="ui-mask" onslectstart="return false"></div>
+    <div class="link">
+    	<a href="javascript:showDialog();">登录</a>
+    </div>
+    <script type="text/javascript">
+    	// 获取元素对象
+    	function g(id) {
+    		return document.getElementById(id);
+    	}
+    	// 自动居中-登录浮层（el=Element）
+    	function autoCenter(el) {
+    		var bodyW = document.documentElement.clientWidth;
+    		var bodyH = document.documentElement.clientHeight;
+
+    		var elW = el.offsetWidth;
+    		var elH = el.offsetHeight;
+
+    		el.style.left = (bodyW - elW)/2 + 'px';
+    		el.style.top = (bodyH - elH)/2 +  'px';
+    	}
+    	// 自动全屏-遮罩
+    	function fillToBody(el) {
+    		el.style.width = document.documentElement.clientWidth + "px";
+    		el.style.height = document.documentElement.clientHeight + "px";
+    	}
+    	var mouseoffsetX = 0;   //偏移
+    	var mouseoffsetY = 0;
+    	var isdraing = false;
+
+    	//鼠标事件1 -在标题栏上按下（要计算鼠标相对拖拽元素的左上角的坐标，并且标记元素为可拖动）
+    	g('loginTitle').addEventListener('mousedown',function(e) {
+    		var e = e||window.event;
+    		mouseoffsetX = e.pageX - g('login').offsetLeft;
+    		mouseoffsetY = e.pageY - g('login').offsetTop;
+    		isdraing = true;
+    	})
+    	//鼠标事件2-鼠标移动时（要检测，元素是否可标记为可移动，如果是，则更新元素的位置，到当前鼠标的位置【ps：要减去第一步中获得的偏移】）
+    	document.onmousemove = function(e) {
+    		var e = e||window.event;
+    		var mouseX = e.pageX;  //鼠标当前位置
+    		var mouseY = e.pageY;
+    		var moveX = 0;
+    		var moveY = 0;
+    		if (isdraing === true) {
+    			moveX = mouseX-mouseoffsetX;
+    			moveY = mouseY-mouseoffsetY;
+
+    			//拖拽范围  moveX>0 moveX<页面宽度-登录层的宽度
+    		    //          moveY>0 moveY<页面高度-登录层高度
+
+    		    var pageWidth = document.documentElement.clientWidth;
+    		    var pageHeight = document.documentElement.clientHeight;
+    		    var dialogWidth = g('login').offsetWidth;
+    		    var dialogHeight = g('login').offsetHeight;
+
+    		    var maxW = pageWidth-dialogWidth;
+    		    var maxH = pageHeight-dialogHeight;
+
+    		    moveX = Math.min(maxW,Math.max(0,moveX));
+    		    moveY = Math.min(maxH,Math.max(0,moveY));
+
+    			g('login').style.left = moveX + 'px';
+    			g('login').style.top = moveY + 'px';
+    		}
+    	}
+    	//鼠标事件3-鼠标松开的时候（标记元素为不可拖动）
+    	document.onmouseup = function() {
+    		isdraing = false;
+    	}
+
+    	//展现登录浮层
+    	function showDialog() {
+        g('login').style.display = 'block';
+        g('mask').style.display = 'block';
+        autoCenter(g('login'));
+    		fillToBody(g('mask'));
+    	}
+    	//关闭登录浮层
+    	function haideDialog(){
+        g('login').style.display = 'none';
+        g('mask').style.display = 'none';
+    	}
+    	//解决改变窗口大小不居中问题
+    	window.onresize = function() {
+    		autoCenter(g('login'));
+    		fillToBody(g('mask'));
+    	}
+    </script>
+</body>
+</html>
