@@ -25,14 +25,14 @@ body {
 }
 .ui-login-title{
 	height: 48px;
-    line-height: 48px;
-    padding: 0 20px;
-    color: #d0985d;
-    font-size: 16px;
-    border-bottom: 1px solid #efefef;
-    background: #f5f5f5;
-    cursor: move;
-    user-select: none;
+  line-height: 48px;
+  padding: 0 20px;
+  color: #d0985d;
+  font-size: 16px;
+  border-bottom: 1px solid #efefef;
+  background: #f5f5f5;
+  cursor: move;
+  user-select: none;
 }
 .ui-login-closebutton{
 	width: 16px;
